@@ -140,3 +140,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.my-custom-avatar {
+  width: 48px;
+  height: 48px;
+}

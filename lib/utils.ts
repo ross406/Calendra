@@ -16,3 +16,26 @@ export function timeToFloat(time: string): number {
   // Convert minutes into a fraction of an hour and add it to the hour
   return hours + minutes / 60
 }
+
+export function getSortedTimezones(): { name: string; offset: number }[] {
+  const now = new Date();
+  return Intl.supportedValuesOf("timeZone")
+    .map(timezone => {
+      // Use Intl.DateTimeFormat to get GMT offset
+      const offsetParts = new Intl.DateTimeFormat("en-US", {
+        timeZone: timezone,
+        timeZoneName: "shortOffset",
+      })
+        .formatToParts(now)
+        .find(part => part.type === "timeZoneName")?.value
+        ?.match(/GMT([+-]\d{1,2})(?::(\d{2}))?/) || [];
+
+      const hours = parseInt(offsetParts[1] || "0", 10);
+      const minutes = parseInt(offsetParts[2] || "0", 10);
+      const totalOffset = hours * 60 + (hours >= 0 ? minutes : -minutes);
+
+      return { name: timezone, offset: totalOffset };
+    })
+    .sort((a, b) => a.offset - b.offset);
+}
+

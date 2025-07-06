@@ -1,14 +1,14 @@
 'use client'
 
 import { DAYS_OF_WEEK_IN_ORDER } from "@/constants"
-import { timeToFloat } from "@/lib/utils"
+import { getSortedTimezones, timeToFloat } from "@/lib/utils"
 import { scheduleFormSchema } from "@/schema/schedule"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { formatTimezoneOffset } from "@/lib/formatters"
+// import { formatTimezoneOffset } from "@/lib/formatters"
 import { Fragment } from "react"
 import { Button } from "../ui/button"
 import { Plus, X } from "lucide-react"
@@ -106,10 +106,15 @@ export function ScheduleForm({
                                 </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                {Intl.supportedValuesOf("timeZone").map(timezone => (
-                                    <SelectItem key={timezone} value={timezone}>
-                                    {timezone}
-                                    {` (${formatTimezoneOffset(timezone)})`}
+                                {getSortedTimezones().map(({ name, offset }) => (
+                                    <SelectItem key={name} value={name}>
+                                    {name}{" "}
+                                    (GMT{offset >= 0 ? "+" : ""}
+                                    {Math.floor(offset / 60)}
+                                    {offset % 60 !== 0
+                                        ? `:${Math.abs(offset % 60).toString().padStart(2, "0")}`
+                                        : ""}
+                                    )
                                     </SelectItem>
                                 ))}
                                 </SelectContent>

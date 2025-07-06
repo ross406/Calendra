@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { formatDate, formatTimeString, formatTimezoneOffset } from "@/lib/formatters"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { Button } from "../ui/button"
-import { cn } from "@/lib/utils"
+import { cn, getSortedTimezones } from "@/lib/utils"
 import { CalendarIcon } from "lucide-react"
 import { Calendar } from "../ui/calendar"
 import { isSameDay } from "date-fns"
@@ -119,10 +119,15 @@ export default function MeetingForm({
                         </FormControl>
                         <SelectContent>
                           {/* List all supported timezones with offset */}
-                          {Intl.supportedValuesOf("timeZone").map(timezone => (
-                            <SelectItem key={timezone} value={timezone}>
-                              {timezone}
-                              {` (${formatTimezoneOffset(timezone)})`}
+                          {getSortedTimezones().map(({ name, offset }) => (
+                            <SelectItem key={name} value={name}>
+                              {name}{" "}
+                              (GMT{offset >= 0 ? "+" : ""}
+                              {Math.floor(offset / 60)}
+                              {offset % 60 !== 0
+                                ? `:${Math.abs(offset % 60).toString().padStart(2, "0")}`
+                                : ""}
+                              )
                             </SelectItem>
                           ))}
                         </SelectContent>

@@ -16,6 +16,11 @@ export const PrivateNavLinks = [
       label: 'My Events',
     },
     {
+      imgURL: '/assets/tasks2.svg',
+      route: '/tasks',
+      label: 'My Tasks',
+    },
+    {
       imgURL: '/assets/schedule.svg',
       route: '/schedule',
       label: 'My Schedule',

@@ -147,7 +147,9 @@ export async function getCalendarEventTimes(
       if (!primaryEmail) {
         throw new Error("Clerk user has no email") // Throw an error if no primary email is found.
       }
-  
+
+      const isSelf = guestEmail === primaryEmail.emailAddress;
+
       // Create the Google Calendar event using the Google API client.
       const calendarEvent = await google.calendar("v3").events.insert({
         calendarId: "primary", // Use the primary calendar of the user.
@@ -169,7 +171,9 @@ export async function getCalendarEventTimes(
           end: {
             dateTime: addMinutes(startTime, durationInMinutes).toISOString(), // Calculate the end time based on the duration.
           },
-          summary: `${guestName} + ${calendarUser.firstName} ${calendarUser.lastName}: ${eventName}`, // Title of the event, including the guest and user names.
+          summary: isSelf
+                ? eventName
+                : `${guestName} + ${calendarUser.firstName} ${calendarUser.lastName}: ${eventName}`, // Title of the event, including the guest and user names.
         },
       })
       console.log("@@@calendarEvent.data",calendarEvent.data)

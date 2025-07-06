@@ -67,7 +67,7 @@ export async function getCalendarEventTimes(
             maxResults: 2500, // Limit the number of returned events (max allowed by Google)
             auth: oAuthClient, // OAuth2 client for authenticating the API call
         })
-
+        console.log("@@@Google Events",events)
         // Process and format the events
         return (
             events.data.items

@@ -1,7 +1,7 @@
 import { getEvent } from "@/server/actions/events";
 import { AlertTriangle } from "lucide-react";
 import {
-  addYears,
+  addMonths,
   eachMinuteOfInterval,
   endOfDay,
   roundToNearestMinutes,
@@ -34,13 +34,13 @@ export default async function BookingPage({
       const client = await clerkClient()
       const calendarUser = await client.users.getUser(clerkUserId)
 
-     // Define a date range from now (rounded up to the nearest 15 minutes) to 1 year later
+     // Define a date range from now (rounded up to the nearest 15 minutes) to 1 month later
     const startDate = roundToNearestMinutes(new Date(), {
       nearestTo: 15,
       roundingMethod: "ceil",
     })
     
-    const endDate = endOfDay(addYears(startDate, 1)) // Set range to 1 year ahead
+    const endDate = endOfDay(addMonths(startDate, 1)) // Set range to 1 month ahead
 
      // Generate valid available time slots for the event using the custom scheduler logic
   const validTimes = await getValidTimesFromSchedule(

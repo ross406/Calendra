@@ -163,6 +163,7 @@ export async function getValidTimesFromSchedule(
     start: intervalDate, // Proposed start time
     end: addMinutes(intervalDate, durationInMinutes), // Proposed end time (start + duration)
   }
+  console.log("@@@availabilities",availabilities)
   console.log("@@@eventInterval",eventInterval)
   // Keep only the time slots that satisfy two conditions:
     return (

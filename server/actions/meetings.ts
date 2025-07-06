@@ -38,8 +38,9 @@ export async function createMeeting(
     }
 
     // Interpret the start time as being in the user's timezone and convert it to a UTC Date
-    const startInTimezone = fromZonedTime(data.startTime, data.timezone);
-
+    // const startInTimezone = fromZonedTime(data.startTime, data.timezone);
+    const startInTimezone = new Date(data.startTime);
+    console.log("@@@startInTimezone",startInTimezone)
     // Check if the selected time is valid for the event's availability
     const validTimes = await getValidTimesFromSchedule([startInTimezone], event);
 

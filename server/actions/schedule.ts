@@ -124,7 +124,7 @@ export async function getValidTimesFromSchedule(
 
    // If no schedule is found, return an empty list (user has no availabilities)
    if (schedule == null) return []
-  console.log("@@@schedule",schedule)
+  // console.log("@@@schedule",schedule)
   // Group availabilities by day of the week (e.g., Monday, Tuesday)
   
   // const groupedAvailabilities = Object.groupBy(

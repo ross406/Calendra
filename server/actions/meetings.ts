@@ -43,6 +43,8 @@ export async function createMeeting(
     // Check if the selected time is valid for the event's availability
     const validTimes = await getValidTimesFromSchedule([startInTimezone], event);
 
+    console.log("@@@validTimes",validTimes)
+    
     // If the selected time is not valid, throw an error
     if (validTimes.length === 0) {
       throw new Error("Selected time is not valid.");

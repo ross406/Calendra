@@ -123,6 +123,13 @@ export async function getCalendarEventTimes(
   }): Promise<calendar_v3.Schema$Event> {  // Specify the return type as `Event`, which represents the created calendar event.
     
     try {
+      console.log("@@@DATA PROPS ---> ",{clerkUserId,
+    guestName,
+    guestEmail,
+    startTime,
+    guestNotes,
+    durationInMinutes,
+    eventName,})
       // Get OAuth client and user information for Google Calendar integration.
       const oAuthClient = await getOAuthClient(clerkUserId)
       if (!oAuthClient) {
@@ -165,7 +172,7 @@ export async function getCalendarEventTimes(
           summary: `${guestName} + ${calendarUser.firstName} ${calendarUser.lastName}: ${eventName}`, // Title of the event, including the guest and user names.
         },
       })
-  
+      console.log("@@@calendarEvent.data",calendarEvent.data)
       return calendarEvent.data  // Return the event data that includes the details of the newly created calendar event.
     } catch (error: any) {
       // Catch and handle any errors that occur during the process.

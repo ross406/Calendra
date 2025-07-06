@@ -182,10 +182,8 @@ for (const task of tasks) {
 
 
 export async function getTasksOnlyFromPrompt({
-  userId,
   prompt,
 }: {
-  userId: string
   prompt: string
 }): Promise<PersonalTask[]> {
   const today = new Date().toISOString().split("T")[0]

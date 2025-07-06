@@ -4,19 +4,17 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { CalendarPlus } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-// import { createTasksFromPrompt } from '@/server/actions/tasks/llm'
+// import { useRouter } from 'next/navigation'
 import { useAuth } from '@clerk/nextjs'
-import { createPersonalTask, createTasksFromPrompt, getTasksOnlyFromPrompt } from '@/server/actions/personalTask'
+import { createPersonalTask, getTasksOnlyFromPrompt } from '@/server/actions/personalTask'
 import { toast } from "sonner"
-// import { getTasksOnlyFromPrompt } from '@/server/actions/getTasksOnlyFromPrompt'
 
 export default function TaskPromptPage() {
   const [prompt, setPrompt] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const { userId } = useAuth()
-  const router = useRouter()
+  // const router = useRouter()
 
 //   Timezone: Asia/Kolkata
 
@@ -34,7 +32,7 @@ const handleSubmit = async () => {
 
   try {
 
-    const tasks = await getTasksOnlyFromPrompt({ userId, prompt })
+    const tasks = await getTasksOnlyFromPrompt({ prompt })
 
     for (const task of tasks) {
       try {

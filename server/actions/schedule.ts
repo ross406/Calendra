@@ -124,26 +124,29 @@ export async function getValidTimesFromSchedule(
 
    // If no schedule is found, return an empty list (user has no availabilities)
    if (schedule == null) return []
-  // console.log("@@@schedule",schedule)
+  console.log("@@@schedule",schedule)
   // Group availabilities by day of the week (e.g., Monday, Tuesday)
   
-  // const groupedAvailabilities = Object.groupBy(
-  //   schedule.availabilities,
-  //   a => a.dayOfWeek
-  // )
-
-  const groupedAvailabilities = schedule.availabilities.reduce((acc, curr) => {
-    const key = curr.dayOfWeek;
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(curr);
-    return acc;
-  }, {} as Record<string, typeof schedule.availabilities>);
+  const groupedAvailabilities = Object.groupBy(
+    schedule.availabilities,
+    a => a.dayOfWeek
+  )
+  console.log("@@@groupedAvailabilities",groupedAvailabilities)
+  
+  // const groupedAvailabilities = schedule.availabilities.reduce((acc, curr) => {
+  //   const key = curr.dayOfWeek;
+  //   if (!acc[key]) acc[key] = [];
+  //   acc[key].push(curr);
+  //   return acc;
+  // }, {} as Record<string, typeof schedule.availabilities>);
 
    // Fetch all existing Google Calendar events between start and end
    const eventTimes = await getCalendarEventTimes(userId, {
     start,
     end,
   })
+
+  console.log("@@@eventTimes",eventTimes)
 
   // Filter and return only valid time slots based on availability and conflicts
   return timesInOrder.filter(intervalDate => {
@@ -160,7 +163,7 @@ export async function getValidTimesFromSchedule(
     start: intervalDate, // Proposed start time
     end: addMinutes(intervalDate, durationInMinutes), // Proposed end time (start + duration)
   }
-
+  console.log("@@@eventInterval",eventInterval)
   // Keep only the time slots that satisfy two conditions:
     return (
     // 1. This time slot does not overlap with any existing calendar events

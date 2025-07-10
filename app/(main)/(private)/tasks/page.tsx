@@ -20,6 +20,7 @@ import { enhanceTaskToImagePrompt } from "@/lib/utils";
 import { deleteCalendarEvent } from "@/server/google/googleCalendar";
 import { BlinkBlur, ThreeDot } from "react-loading-indicators";
 import ShimmerCard from "./ShimmerCard";
+import { BASE64 } from "./image";
 
 type TaskWithImage = {
   id: string;
@@ -32,7 +33,7 @@ type TaskWithImage = {
   completed?: boolean;
 };
 
-const SAMPLE_BASE64 = 'iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAIAAABJdyC1AAAFoklEQVR4nO3b0bKaOgCGUTjT93Z8cnrhHIYmEEEi23+71kXHWgjRymegu+M0TQNAgv9+egIAewkWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOw';
+const SAMPLE_BASE64 = BASE64;
 
 export default function TaskPromptPage() {
   const [prompt, setPrompt] = useState("");

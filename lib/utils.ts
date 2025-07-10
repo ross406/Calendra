@@ -1,3 +1,4 @@
+import { PersonalTask } from "@/server/actions/personalTask"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -37,5 +38,21 @@ export function getSortedTimezones(): { name: string; offset: number }[] {
       return { name: timezone, offset: totalOffset };
     })
     .sort((a, b) => a.offset - b.offset);
+}
+
+export function enhanceTaskToImagePrompt(task: PersonalTask): string {
+  return `
+  A scene representing the task: "${task.title}".
+  Description: ${task.description || "a productive personal task"}.
+  Time: ${new Date(task.startTime).toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+  })} to ${new Date(task.endTime).toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+  })}.
+  Style: Cinematic, ultra-detailed, clean lighting, modern digital art.
+  Context: Peaceful, focused atmosphere appropriate for the task.
+  `.trim();
 }
 

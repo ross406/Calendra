@@ -184,4 +184,42 @@ export async function getCalendarEventTimes(
       throw new Error(`Failed to create calendar event: ${error.message || error}`) // Throw a new error with a detailed message.
     }
   }
+
+
+export async function deleteCalendarEvent({
+  clerkUserId,
+  eventId,
+}: {
+  clerkUserId: string;
+  eventId: string;
+}): Promise<{ success: boolean }> {
+  try {
+    const oAuthClient = await getOAuthClient(clerkUserId);
+
+    if (!oAuthClient) {
+      throw new Error("OAuth client could not be obtained.");
+    }
+
+    await google.calendar("v3").events.delete({
+      calendarId: "primary",
+      eventId,
+      auth: oAuthClient,
+    });
+
+    console.log(`✅ Deleted event ${eventId} for user ${clerkUserId}`);
+    return { success: true };
+  } catch (err: any) {
+   const message = err?.message || err;
+
+    // ✅ Gracefully handle already-deleted event
+    if (message.includes("Resource has been deleted") || err?.code === 410) {
+      console.warn(`⚠️ Event ${eventId} already deleted for user ${clerkUserId}`);
+      return { success: true }; // treat as successful
+    }
+
+    console.error("❌ Failed to delete calendar event:", message);
+    throw new Error(`Failed to delete calendar event: ${message}`);
+  
+  }
+}
   

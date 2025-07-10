@@ -77,3 +77,17 @@ export const ScheduleAvailabilityRelations = relations(
       }),
     })
   )
+
+export const TaskTable = pgTable("tasks", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: text("title").notNull(),
+  description: text("description"),
+  startTime: timestamp("startTime").notNull(),
+  endTime: timestamp("endTime").notNull(),
+  base64Image: text("base64Image").notNull(),
+  clerkUserId: text("clerkUserId").notNull(),
+  calendarEventId: text("calendarEventId"), // Optional: link to Google Calendar
+  completed: boolean("completed").notNull().default(false),
+  createdAt,
+  updatedAt,
+});

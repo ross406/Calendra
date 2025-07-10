@@ -186,7 +186,7 @@ export async function getTasksFromOllama(systemPrompt: string, userPrompt: strin
 // Set your LLM provider: 'CHAT_GPT' | 'GEMINI' | 'OLLAMA'
 type LLMProvider = 'CHAT_GPT' | 'GEMINI' | 'OLLAMA'
 
-const LLM_PROVIDER: LLMProvider = 'OLLAMA'
+const LLM_PROVIDER: LLMProvider =  process.env.NODE_ENV === "production" ? 'GEMINI' : 'OLLAMA';
 
 export async function createTasksFromPrompt({
   userId,

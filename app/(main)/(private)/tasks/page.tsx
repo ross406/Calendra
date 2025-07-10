@@ -32,6 +32,8 @@ type TaskWithImage = {
   completed?: boolean;
 };
 
+const SAMPLE_BASE64 = 'iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAIAAABJdyC1AAAFoklEQVR4nO3b0bKaOgCGUTjT93Z8cnrhHIYmEEEi23+71kXHWgjRymegu+M0TQNAgv9+egIAewkWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOwgBiCBcQQLCCGYAExBAuIIVhADMECYggWEEOw';
+
 export default function TaskPromptPage() {
   const [prompt, setPrompt] = useState("");
   const [myTasks, setMyTasks] = useState<TaskWithImage[]>([]);
@@ -103,7 +105,7 @@ export default function TaskPromptPage() {
           const imagePrompt = enhanceTaskToImagePrompt(task);
 
           // 2. Generate image
-          const base64Image = await generateImageFromPrompt(imagePrompt);
+          const base64Image = process.env.NODE_ENV === "production" ? SAMPLE_BASE64 : await generateImageFromPrompt(imagePrompt);
 
           // 3. Add to Clerk calendar
           const result = await createPersonalTask({

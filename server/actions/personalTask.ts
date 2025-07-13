@@ -9,6 +9,7 @@ import { GoogleGenAI } from "@google/genai";
 import { db } from "@/drizzle/db";
 import { TaskTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
+import sharp from "sharp";
 // import { enhanceTaskToImagePrompt } from "@/lib/utils";
 
 export type PersonalTask = {
@@ -369,7 +370,19 @@ export async function generateImageFromPrompt(prompt: string): Promise<string> {
   }
 
   const data = await response.json();
-  return data.images[0]; // base64 string
+
+   // base64 PNG image (no data URI prefix)
+    const base64Png = data.images[0];
+    const buffer = Buffer.from(base64Png, 'base64');
+
+    // Convert PNG to WebP with quality ~60%
+    const webpBuffer = await sharp(buffer)
+      .webp({ quality: 60 })
+      .toBuffer();
+
+    // Return base64 (without data URI prefix)
+    return webpBuffer.toString('base64');
+
 } catch (err: any) {
     if (err.name === "AbortError") {
       throw new Error("Image generation timed out");

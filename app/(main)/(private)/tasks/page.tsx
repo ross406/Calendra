@@ -20,7 +20,7 @@ import { enhanceTaskToImagePrompt } from "@/lib/utils";
 import { deleteCalendarEvent } from "@/server/google/googleCalendar";
 import { BlinkBlur, ThreeDot } from "react-loading-indicators";
 import ShimmerCard from "./ShimmerCard";
-import { BASE64 } from "./image";
+import { BASE64 } from "./imageMini";
 
 type TaskWithImage = {
   id: string;
@@ -95,7 +95,6 @@ export default function TaskPromptPage() {
   const handleSubmit = async () => {
     setError("");
     setLoading(true);
-    setMyTasks([]); // Clear existing tasks
 
     try {
       const rawTasks = await getTasksFromPromptOnly({ prompt });
@@ -258,7 +257,7 @@ export default function TaskPromptPage() {
               // style={{ minHeight: "360px" }}
             >
               <img
-                src={`data:image/png;base64,${task.base64Image}`}
+                src={`data:image/webp;base64,${task.base64Image}`}
                 alt={task.title}
                 className="w-full h-48 object-cover"
               />
